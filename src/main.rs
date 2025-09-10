@@ -1,58 +1,50 @@
-use axum::{Json, Router, routing::get};
-use serde::{Deserialize, Serialize};
-use std::sync::Arc;
-use surrealdb::Surreal;
-use surrealdb::engine::any;
-use surrealdb::opt::auth::Root;
-use tokio;
+use std::net::SocketAddr;
 
-#[derive(Debug, Serialize, Deserialize)]
-struct PersonPartial {
-    email: String,
-    first_name: String,
+use axum::{routing::get, Json, Router};
+use serde::Serialize;
+use utoipa::{OpenApi, ToSchema};
+use utoipa_swagger_ui::SwaggerUi;
+#[derive(Serialize, ToSchema)]
+struct HelloResponse {
+    message: String,
 }
 
-#[derive(Clone)]
-struct AppState {
-    db: Arc<Surreal<any::Any>>,
+#[utoipa::path(
+    get,
+    path = "/hello",
+    responses(
+        (status = 200, description = "Un saludo", body = HelloResponse)
+    )
+)]
+async fn hello() -> Json<HelloResponse> {
+    Json(HelloResponse {
+        message: "Hello, world!".to_string(),
+    })
 }
+
+#[derive(OpenApi)]
+#[openapi(
+	paths(hello), 
+	components(schemas(HelloResponse)),
+	tags(
+		(name = "Ejemplo", description = "API de ejemplo")
+	)
+)]
+struct ApiDoc;
 
 #[tokio::main]
-async fn main() -> surrealdb::Result<()> {
-    let db =
-        any::connect("wss://rust-peru-06cculg9mtssp97io08ca4bg0k.aws-use1.surreal.cloud").await?;
-
-    db.use_ns("demo").use_db("surreal_deal_store").await?;
-
-    db.signin(Root {
-        username: "root",
-        password: "surrealdb",
-    })
-    .await?;
-
-    let state = AppState { db: Arc::new(db) };
+async fn main() {
+    let socket_address: SocketAddr = "127.0.0.1:8080".parse().unwrap();
+    let listener = tokio::net::TcpListener::bind(socket_address).await.unwrap();
 
     let app = Router::new()
-        .route("/persons", get(get_persons))
-        .with_state(state);
+        .route("/hello", get(hello))
+        .merge(SwaggerUi::new("/docs").url("/api-doc/openapi.json", ApiDoc::openapi()));
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+    println!("🚀 Servidor corriendo en http://{}", socket_address);
+    println!("📑 Swagger UI en http://{}/docs", socket_address);
+
+    axum::serve(listener, app.into_make_service())
         .await
-        .unwrap();
-
-    axum::serve(listener, app).await.unwrap();
-
-    Ok(())
-}
-
-async fn get_persons(
-    axum::extract::State(state): axum::extract::State<AppState>,
-) -> Json<Vec<PersonPartial>> {
-    let persons: Vec<PersonPartial> = state
-        .db
-        .select("person") // 👈 lee todos los registros de la tabla "person"
-        .await
-        .unwrap_or_default();
-
-    Json(persons)
+        .unwrap()
 }

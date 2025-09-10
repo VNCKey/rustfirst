@@ -1,12 +1,29 @@
 [package]
 name = "axum_learning"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
+
+# Framework web
 axum = "0.8.4"
+# Async
 tokio = { version = "1", features = ["full"] }
+
+# Serializacion y Deserializacion
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+
+# Base de datos SurrealDb Cloud
 surrealdb = "2.3.7"
+
+# Fechas y Tiempos
 chrono = "0.4.41"
+
+# Configuración (variables de entorno / archivos .toml, .json, etc.)
+config = "0.14"
+
+# Utoipa para la documentacion
+utoipa = { version ="5.4.0", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "9.0.2", features = ["axum"] }
+

@@ -1,4 +1,3 @@
-// src/models/producto.rs
 use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 use utoipa::ToSchema;

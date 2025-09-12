@@ -1,4 +1,3 @@
-// src/db.rs
 use std::sync::Arc;
 use surrealdb::{engine::any, opt::auth::Root, Surreal};
 

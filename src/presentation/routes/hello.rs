@@ -1,11 +1,10 @@
-// src/routes/hello.rs
 use axum::Json;
 use serde::Serialize;
 use utoipa::ToSchema;
 
 #[derive(Serialize, ToSchema)]
 pub struct HelloResponse {
-    message: String,
+    pub message: String,
 }
 
 #[utoipa::path(

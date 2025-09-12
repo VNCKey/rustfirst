@@ -20,7 +20,7 @@ surrealdb = "2.3.7"
 # Fechas y Tiempos
 chrono = "0.4.41"
 
-# Configuración (variables de entorno / archivos .toml, .json, etc.)
+# Configuración variables de entorn
 config = "0.14"
 
 # Utoipa para la documentacion

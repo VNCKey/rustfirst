@@ -1,0 +1,6 @@
+[database]
+url = "wss://alekay-06chbhc0ntqij7v5mqejg1s6ps.aws-use1.surreal.cloud"
+namespace = "surrealdb"
+name = "ventas"
+user = "admin"
+pass = "admin"

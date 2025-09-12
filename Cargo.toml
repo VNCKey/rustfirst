@@ -26,4 +26,5 @@ config = "0.14"
 # Utoipa para la documentacion
 utoipa = { version ="5.4.0", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "9.0.2", features = ["axum"] }
+anyhow = "1.0.99"
 

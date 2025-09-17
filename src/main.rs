@@ -16,7 +16,8 @@ use db::init_db;
 #[openapi(
     paths(
         crate::presentation::routes::hello::hello,
-        crate::presentation::routes::productos::get_productos
+        crate::presentation::routes::productos::get_productos,
+				crate::presentation::routes::productos::create_producto,
     ),
     components(schemas(ProductoPartial)),
     tags(

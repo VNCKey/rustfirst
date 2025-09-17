@@ -5,6 +5,8 @@ use utoipa::ToSchema;
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 pub struct ProductoPartial {
     #[schema(value_type = String)]
+    pub id: Thing,
+    #[schema(value_type = String)]
     pub categoria_id: Thing,
     pub nombre: String,
     pub descripcion: String,

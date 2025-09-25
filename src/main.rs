@@ -1,8 +1,9 @@
+mod domain;
+mod presentation;
+
 mod app;
 mod config;
 mod db;
-
-mod presentation;
 mod server;
 
 use app::build_app;

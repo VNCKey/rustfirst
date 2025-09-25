@@ -1,5 +1,5 @@
 use crate::db::AppState;
-use crate::presentation::models::producto::{ProductoCreate, ProductoPartial};
+use crate::domain::models::producto::{ProductoCreate, ProductoPartial};
 use axum::{extract::State, Json};
 use axum::{http::StatusCode, response::IntoResponse};
 

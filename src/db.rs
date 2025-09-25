@@ -1,4 +1,6 @@
+//Esto es Atomic Reference Counted para poder compartir la conexion de la base de datos entre los handlers de axum
 use std::sync::Arc;
+
 use surrealdb::{engine::any, opt::auth::Root, Surreal};
 
 use crate::config::DatabaseConfig;
